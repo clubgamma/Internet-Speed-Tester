@@ -84,5 +84,16 @@ To keep your fork up-to-date with the main repository and avoid conflicts:
 4. **Keep Updated:**
    - Regularly pull changes from the upstream repository to keep your fork updated.
 
+
+###  Add your name
+Add your name to the `CONTRIBUTING.md` file using the below convention:
+
+```markdown
+#### Name: [YOUR NAME](GitHub link)
+- Place: City, State, Country
+- Bio: Who are you?
+- GitHub: [GitHub account name](GitHub link)
+```
+
 We look forward to your contributions and thank you for being a part of our community!
 
