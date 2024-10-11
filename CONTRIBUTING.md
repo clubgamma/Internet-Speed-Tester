@@ -84,8 +84,5 @@ To keep your fork up-to-date with the main repository and avoid conflicts:
    - Regularly pull changes from the upstream repository to keep your fork updated.
 
 
-- Place: City, State, Country
-- Bio: Who are you?
-- GitHub: [GitHub account name](GitHub link)
 
 We look forward to your contributions and thank you for being a part of our community!
