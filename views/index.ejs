@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <title>Internet Speed Tester</title>
     <style>
         body {
@@ -170,7 +170,7 @@
         function checkSpeed() {
             document.getElementById('loader').style.display = 'block';
             document.getElementById('result').innerHTML = '';
-
+    
             fetch('/speed')
                 .then(response => response.json())
                 .then(data => {
@@ -190,6 +190,14 @@
                             <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
                                 <i class="fa-solid fa-wifi" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
                                 <h2 style="font-size: 2rem; color: #333;">Ping: ${data.ping} ms</h2>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                                <i class="fa-solid fa-map-marker-alt" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                                <h2 style="font-size: 2rem; color: #333;">Location: ${data.location}</h2>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                                <i class="fa-solid fa-globe" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                                <h2 style="font-size: 2rem; color: #333;">IP: ${data.ip}</h2>
                             </div>
                         `;
                     }

@@ -23,7 +23,14 @@ app.get("/speed", (req, res) => {
 
         try {
             const data = JSON.parse(stdout);
-            const { downloadSpeed, uploadSpeed, latency, bufferBloat, userLocation, userIp } = data;
+            const {
+                downloadSpeed,
+                uploadSpeed,
+                latency,
+                bufferBloat,
+                userLocation,
+                userIp
+            } = data;
 
             res.send({
                 ping: latency,
