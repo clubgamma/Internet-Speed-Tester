@@ -1,45 +1,106 @@
-# Internet Speed Test Web Application
+Internet Speed Tester
 
-This is a simple web application built using Node.js and Express to test the internet speed of the user. The application uses the `fast-cli` command to retrieve download, upload speeds, latency, buffer bloat, user location, and IP.
+This project is an Internet Speed Testing tool built with React on the frontend and Node.js on the backend. It uses the fast-cli tool to check internet speeds (download, upload, ping) and provides actionable insights.
 
-## Features
-- Test internet download speed.
-- Test internet upload speed.
-- Get ping (latency) information.
-- Measure buffer bloat.
-- Display user's location and IP.
+Features
 
-## Installation
+	•	Display download and upload speed.
+	•	Display ping and location.
+	•	API to retrieve speed test results via fast-cli.
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/your-username/internet-speed-test.git
+Installation
 
-2. Navigate into the project directory:
-   ```bash
-   cd internet-speed-test
-3. Install the required dependencies:
-    ```bash
+1. Forking & Cloning the Project
+
+Fork the Repository
+
+	1.	Go to the project’s repository on GitHub.
+	2.	Click the Fork button in the top-right corner of the repository page.
+
+Clone the Repository
+
+After forking the project, follow these steps to clone it to your local machine:
+
+	1.	Copy the repository URL from your forked repository.
+	2.	Run the following command in your terminal:
+
+    git clone https://github.com/YOUR-USERNAME/internet-speed-tester.git
+
+    2. Navigate to the Project Folder
+
+After cloning, navigate to the project folder:
+
+    cd internet-speed-tester
+
+3. Install Dependencies
+
+The project is divided into two main folders: client for the frontend and server for the backend. You will need to install dependencies for both parts.
+
+Frontend (React)
+
+	1.	Navigate to the client folder:
+
+    cd client
+
+	2.	Install dependencies:
+
     npm install
-    ```
-## Usage
 
-1. Start the server:
-    ```bash
+Backend (Node.js)
+
+	1.	Navigate to the server folder:
+
+    cd server
+
+	2.	Install dependencies:
+
+    npm install
+
+4. Setting Up Environment Variables
+
+Create a .env file in the server folder and add the following:
+
+    REACT_APP_API_URL=http://localhost:3000
+
+File Structure
+
+The project is divided into two main folders:
+
+internet-speed-tester/
+├── client/            # React Frontend
+│   ├── public/        # Public folder for HTML and static assets
+│   ├── src/           # Main React code
+│       ├── App.js     # React app code
+│       └── ...        # Other components and assets
+├── server/            # Node.js Backend
+│   ├── server.js      # Main server code
+│   └── ...            # Other backend files
+└── README.md          # Project documentation
+
+Usage
+
+Running the Frontend
+
+	1.	Navigate to the client folder:
+
+    cd client
+
+	2.	Start the development server:
+
     npm start
-    ```
 
-2. Open your browser and navigate to:
-   ```bash
-   http://localhost:3000
-   ```   
-3. To perform a speed test, go to:   
-   ```bash
-    http://localhost:3000/speed
-   ```
-## Requirements
-- Node.js (v12+)
-- ```fast-cli ``` installed globally:
+Running the Backend
 
-    ```bash
-    npm install -g fast-cli
+	1.	Navigate to the server folder:
+
+    cd server
+
+	2.	Start the backend server:
+
+    node server.js
+
+API Endpoint
+
+	•	GET /api/speed: This endpoint returns the internet speed data (download, upload, ping).
+
+IMP: If the website doesnt open on the local host then try running the server first and then the frontend.
