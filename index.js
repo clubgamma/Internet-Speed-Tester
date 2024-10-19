@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 3000;
 const { exec } = require("child_process");
 const Joi = require("joi");
 const rateLimit = require("express-rate-limit");
+const Chart = require('chart.js/auto');
 
 app.set("view engine", "ejs");
 app.use(express.static("views"));
@@ -37,6 +38,7 @@ app.get("/", (req, res) => {
     bufferBloat: "",
     location: "",
     ip: "",
+    Chart: Chart
   });
 });
 

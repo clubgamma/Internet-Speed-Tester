@@ -82,7 +82,8 @@
 
       .result {
         font-size: 1.5rem;
-        margin: 20px 0;
+        /* margin: 30px 0; */
+        margin-top: 10px;
         color: #000000;
       }
 
@@ -143,6 +144,12 @@
         }
       }
 
+      #graphs {
+        width: 560px;
+        height: 350px;
+        padding-top: 15px;
+      }
+
       .svg-container {
         position: relative;
       }
@@ -187,7 +194,7 @@
       <button
         onclick="checkSpeed()"
         type="button"
-        class="btn active"
+        class="btn"
         style="font-size: 2rem; color: white; background-color: #211212"
       >
         <img
@@ -198,8 +205,13 @@
         Speed Test
       </button>
 
+      <div id="graphs" style="padding-left: 22%; padding-top: 10px; display: none;">
+        <canvas id="acquisitions"></canvas>
+      </div>
+
       <div id="result" class="result"></div>
-      <div id="loader" class="loader" style="display: none">
+
+      <div id="loader" class="loader" style="padding-top: 15px; display: none">
         <div class="svg-container" id="svg-container">
           <svg
             width="349"
@@ -283,13 +295,15 @@
         </div>
       </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
       let speedInterval;
 
       function checkSpeed() {
         document.getElementById("loader").style.display = "block";
-        document.getElementById("result").textContent = "";
-        // speedInterval = setInterval(updateSpeedDisplay, 100);
+        document.getElementById("result").innerHTML = "";
+        const ctx = document.getElementById("acquisitions");
 
         fetch("/speed")
           .then((response) => response.json())
@@ -301,10 +315,33 @@
                 "result"
               ).textContent = `Error: ${data.error}`;
             } else {
+              document.getElementById("graphs").style.display = "block";
+
+              new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                  labels: ["Upload", "Download", "Ping"],
+                  datasets: [
+                    {
+                      label: "Speed ",
+                      data: [data.upload, data.download, data.ping],
+                      borderWidth: 0.5,
+                    },
+                  ],
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                    },
+                  },
+                },
+              });
+
               document.getElementById("result").innerHTML = `
                             <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
                                 <i class="fa-solid fa-download" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
-                                <h2 style="font-size: 2rem; color: #333;">Download Speed: ${data.download} Mbps</h2>
+                                <h2 style="font-size : 2rem; color: #333;">Download Speed: ${data.download} Mbps</h2>
                             </div>
                             <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
                                 <i class="fa-solid fa-upload" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
@@ -325,9 +362,10 @@
                         `;
             }
           })
-          .catch(() => {
+          .catch((error) => {
             clearInterval(speedInterval);
             document.getElementById("loader").style.display = "none";
+            console.error("Error performing speed test:", error); // Log the error
             document.getElementById("result").textContent =
               "Error performing speed test.";
           });
