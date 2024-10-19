@@ -50,7 +50,14 @@ const App = () => {
                 Speed Test
             </button>
 
-            {loading && <div className="loader" />}
+            {loading && (
+                <div className="speedometer" style={{ display: 'block' }}>
+                    <div className="arc"></div>
+                    <div className="mask"></div>
+                    <div className="pointer"></div>
+                    <div className="center-cap"></div>
+                </div>
+            )}
 
             {error && <div className="result">{error}</div>}
 
@@ -65,7 +72,7 @@ const App = () => {
                         <h2 style={{ fontSize: '2rem', color: '#333' }}>Upload Speed: {speedData.upload} Mbps</h2>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0' }}>
-                        <i className="fa-solid fa-wifi" style={{ fontSize: '24px', color: '#2980b9', marginRight: '10px' }} />
+                        <i className="fa-solid fa-clock" style={{ fontSize: '24px', color: '#2980b9', marginRight: '10px' }} />
                         <h2 style={{ fontSize: '2rem', color: '#333' }}>Ping: {speedData.ping} ms</h2>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0' }}>
@@ -73,8 +80,8 @@ const App = () => {
                         <h2 style={{ fontSize: '2rem', color: '#333' }}>Location: {speedData.location}</h2>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px 0' }}>
-                        <i className="fa-solid fa-globe" style={{ fontSize: '24px', color: '#2980b9', marginRight: '10px' }} />
-                        <h2 style={{ fontSize: '2rem', color: '#333' }}>IP: {speedData.ip}</h2>
+                        <i className="fa-solid fa-network-wired" style={{ fontSize: '24px', color: '#2980b9', marginRight: '10px' }} />
+                        <h2 style={{ fontSize: '2rem', color: '#333' }}>IP Address: {speedData.ip}</h2>
                     </div>
                 </div>
             )}
