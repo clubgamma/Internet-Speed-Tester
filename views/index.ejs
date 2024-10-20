@@ -209,56 +209,69 @@
             <img src="./performance.png" alt="Speed Test Icon" style="max-width: 30px; max-height: 50px;"> Speed Test
         </button>
 
+        <!-- Result and loader elements -->
         <div id="result" class="result"></div>
-        <div class="speedometer" id="speedometer">
-            <div class="arc"></div>
-            <div class="mask"></div>
-            <div class="pointer"></div>
-            <div class="center-cap"></div>
-        </div>
+        <div id="loader" class="loader" style="display: none;"></div>
+        <!-- Error message element -->
+        <div id="error-message" class="error-message" style="display: none; color: red;"></div>
     </div>
+
     <script>
         function checkSpeed() {
-            document.getElementById('speedometer').style.display = 'block';
+            // Clear any previous results or error messages
+            document.getElementById('loader').style.display = 'block';
             document.getElementById('result').innerHTML = '';
-    
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('error-message').innerHTML = '';
+
             fetch('/speed')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('speedometer').style.display = 'none';
-                    if (data.error) {
-                        document.getElementById('result').textContent = `Error: ${data.error}`;
-                    } else {
-                        document.getElementById('result').innerHTML = `
-                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-                                <i class="fa-solid fa-download" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
-                                <h2 style="font-size: 2rem; color: #333;">Download Speed: ${data.download} Mbps</h2>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-                                <i class="fa-solid fa-upload" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
-                                <h2 style="font-size: 2rem; color: #333;">Upload Speed: ${data.upload} Mbps</h2>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-                                <i class="fa-solid fa-wifi" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
-                                <h2 style="font-size: 2rem; color: #333;">Ping: ${data.ping} ms</h2>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-                                <i class="fa-solid fa-map-marker-alt" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
-                                <h2 style="font-size: 2rem; color: #333;">Location: ${data.location}</h2>
-                            </div>
-                            <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-                                <i class="fa-solid fa-globe" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
-                                <h2 style="font-size: 2rem; color: #333;">IP: ${data.ip}</h2>
-                            </div>
-                        `;
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok,please Check your Network Connection');
                     }
+                    return response.json();
                 })
-                .catch(() => {
-                    document.getElementById('speedometer').style.display = 'none';
-                    document.getElementById('result').textContent = 'Error performing speed test.';
+                .then(data => {
+                    document.getElementById('loader').style.display = 'none';
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+
+                    document.getElementById('result').innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                            <i class="fa-solid fa-download" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                            <h2 style="font-size: 2rem; color: #333;">Download Speed: ${data.download} Mbps</h2>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                            <i class="fa-solid fa-upload" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                            <h2 style="font-size: 2rem; color: #333;">Upload Speed: ${data.upload} Mbps</h2>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                            <i class="fa-solid fa-wifi" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                            <h2 style="font-size: 2rem; color: #333;">Ping: ${data.ping} ms</h2>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                            <i class="fa-solid fa-map-marker-alt" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                            <h2 style="font-size: 2rem; color: #333;">Location: ${data.location}</h2>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                            <i class="fa-solid fa-globe" style="font-size: 24px; color: #2980b9; margin-right: 10px;"></i>
+                            <h2 style="font-size: 2rem; color: #333;">IP: ${data.ip}</h2>
+                        </div>
+                    `;
+                })
+                .catch(error => {
+                    // Hide the loader and display an error message
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('error-message').style.display = 'block';
+                    document.getElementById('error-message').innerHTML = `
+                        <i class="fa-solid fa-exclamation-triangle" style="color: red; margin-right: 10px;"></i>
+                        <strong>Error:</strong> ${error.message || 'An unexpected error occurred. Please try again later.'}
+                    `;
                 });
         }
     </script>
 </body>
+
 
 </html>
