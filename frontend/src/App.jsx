@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css'; 
 import performanceImg from './assets/performance.png';
-import '@fortawesome/fontawesome-free/css/all.min.css';
+import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
@@ -15,9 +15,9 @@ const App = () => {
         setError('');
 
         try {
-            const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3000'; // Fallback to localhost if variable is missing
-            const response = await fetch(`${apiUrl}/api/speed`); // Call to backend API
-            const data = await response.json();
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // Use .env variable or fallback
+            const response = await fetch(`${apiUrl}/api/speed`); // Fetch from API
+const data = await response.json();
             
             setLoading(false);
             if (data.error) {
