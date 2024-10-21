@@ -123,7 +123,7 @@ const SpeedTest = () => {
                                     <thead className="bg-gradient-to-r from-blue-50 to-blue-100">
                                         <tr>
                                             <th className="p-3 text-left text-xs font-semibold text-gray-900">
-                                                #
+                                                Rank
                                             </th>
                                             <th className="p-3 text-left text-xs font-semibold text-gray-900">
                                                 Country
