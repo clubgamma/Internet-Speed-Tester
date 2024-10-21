@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Wifi, Upload, Download, Clock, MapPin, Network } from 'lucide-react';
 
-const SpeedTest = () => {
+const App = () => {
     const [loading, setLoading] = useState(false);
     const [speedData, setSpeedData] = useState(null);
     const [error, setError] = useState('');
@@ -12,10 +12,10 @@ const SpeedTest = () => {
         setError('');
 
         try {
-            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-            const response = await fetch(`${apiUrl}/api/speed`);
-            const data = await response.json();
-
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000'; // Use .env variable or fallback
+            const response = await fetch(`${apiUrl}/api/speed`); // Fetch from API
+const data = await response.json();
+            
             setLoading(false);
             if (data.error) {
                 setError(`Error: ${data.error}`);
@@ -27,6 +27,7 @@ const SpeedTest = () => {
             setError('Error performing speed test.');
         }
     };
+
 
     const mockLeaderboard = [
         { country: 'United Arab Emirates', avgSpeed: 413.14 },
@@ -48,7 +49,7 @@ const SpeedTest = () => {
                     <h1 className="text-4xl font-bold text-gray-900">Internet Speed Test</h1>
                     <p className="text-gray-600">Check your connection speed in seconds</p>
                 </div>
-
+      
                 <div className="flex justify-center">
                     <button
                         onClick={checkSpeed}
@@ -166,4 +167,5 @@ const SpeedTest = () => {
     );
 };
 
-export default SpeedTest;
+
+export default App;
