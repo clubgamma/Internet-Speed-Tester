@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
-import performanceImg from './assets/performance.png';
-import '@fortawesome/fontawesome-free/css/all.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { ripples } from 'ldrs'
+import { Wifi, Upload, Download, Clock, MapPin, Network } from 'lucide-react';
 
-ripples.register()
-
-const App = () => {
+const SpeedTest = () => {
     const [loading, setLoading] = useState(false);
     const [speedData, setSpeedData] = useState(null);
     const [error, setError] = useState('');
@@ -34,65 +28,142 @@ const App = () => {
         }
     };
 
+    const mockLeaderboard = [
+        { country: 'United Arab Emirates', avgSpeed: 413.14 },
+        { country: 'Qatar', avgSpeed: 350.50 },
+        { country: 'Kuwait', avgSpeed: 257.15 },
+        { country: 'South korea', avgSpeed: 143.11 },
+        { country: 'Netherlands', avgSpeed: 142.22 },
+        { country: 'Denmark', avgSpeed: 133.57 },
+        { country: 'Norway', avgSpeed: 129.16 },
+        { country: 'Bulgaria', avgSpeed: 129.07 },
+        { country: 'Saudi Arabia', avgSpeed: 120.74 },
+        { country: 'Luxembourg', avgSpeed: 119.81 },
+    ];
+
     return (
-        <div className="container mx-auto p-4 font-sans">
-            <div className="text-center mb-6">
-                <h1 className="text-2xl md:text-4xl font-bold text-gray-800">Internet Speed Tester</h1>
-            </div>
-
-            <div className="flex justify-center">
-                <button
-                    onClick={checkSpeed}
-                    type="button"
-                    className="flex items-center justify-center bg-black text-white  rounded-lg px-4 py-2 text-lg md:text-xl hover:bg-gray-800 transition-all"
-                >
-                    <img
-                        src={performanceImg}
-                        alt="Speed Test Icon"
-                        className="w-8 h-8 md:w-10 md:h-10 mr-3"
-                    />
-                    Speed Test
-                </button>
-            </div>
-
-            {loading && (
-                <div className='flex justify-center mt-4'>
-                    <l-ripples
-                        size="55"
-                        speed="2"
-                        color="black"
-                    ></l-ripples>
+        <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-6">
+            <div className="max-w-7xl mx-auto space-y-8">
+                <div className="text-center font-montserrat space-y-4">
+                    <h1 className="text-4xl font-bold text-gray-900">Internet Speed Test</h1>
+                    <p className="text-gray-600">Check your connection speed in seconds</p>
                 </div>
-            )}
 
-            {error && <div className="text-center text-red-500 mt-6">{error}</div>}
-
-            {speedData && (
-                <div className="result mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 text-center">
-                    <div className="flex flex-col items-center">
-                        <i className="fa-solid fa-download text-3xl text-blue-500 mb-2"></i>
-                        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">Download Speed: {speedData.download} Mbps</h2>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <i className="fa-solid fa-upload text-3xl text-blue-500 mb-2"></i>
-                        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">Upload Speed: {speedData.upload} Mbps</h2>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <i className="fa-solid fa-clock text-3xl text-blue-500 mb-2"></i>
-                        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">Ping: {speedData.ping} ms</h2>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <i className="fa-solid fa-map-marker-alt text-3xl text-blue-500 mb-2"></i>
-                        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">Location: {speedData.location}</h2>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <i className="fa-solid fa-network-wired text-3xl text-blue-500 mb-2"></i>
-                        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">IP Address: {speedData.ip}</h2>
-                    </div>
+                <div className="flex justify-center">
+                    <button
+                        onClick={checkSpeed}
+                        disabled={loading}
+                        className="bg-blue-600 hover:bg-blue-700 font-dm-sans text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 transition-all transform hover:scale-105 disabled:opacity-50"
+                    >
+                        <Wifi className="w-6 h-6" />
+                        {loading ? 'Testing...' : 'Start Speed Test'}
+                    </button>
                 </div>
-            )}
+
+                {loading && (
+                    <div className="flex justify-center">
+                        <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                )}
+
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative text-center">
+                        {error}
+                    </div>
+                )}
+
+                {speedData && (
+                    <>
+                        <div className="grid grid-cols-1 font-dm-sans md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <Download className="w-8 h-8 text-blue-600" />
+                                    <h2 className="text-xl font-semibold">Download Speed</h2>
+                                </div>
+                                <p className="text-3xl font-bold text-gray-900">{speedData.download} Mbps</p>
+                            </div>
+
+                            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <Upload className="w-8 h-8 text-green-600" />
+                                    <h2 className="text-xl font-semibold">Upload Speed</h2>
+                                </div>
+                                <p className="text-3xl font-bold text-gray-900">{speedData.upload} Mbps</p>
+                            </div>
+
+                            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <Clock className="w-8 h-8 text-yellow-600" />
+                                    <h2 className="text-xl font-semibold">Ping</h2>
+                                </div>
+                                <p className="text-3xl font-bold text-gray-900">{speedData.ping} ms</p>
+                            </div>
+
+                            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <MapPin className="w-8 h-8 text-purple-600" />
+                                    <h2 className="text-xl font-semibold">Location</h2>
+                                </div>
+                                <p className="text-xl text-gray-900">{speedData.location}</p>
+                            </div>
+
+                            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+                                <div className="flex items-center gap-4 mb-4">
+                                    <Network className="w-8 h-8 text-indigo-600" />
+                                    <h2 className="text-xl font-semibold">IP Address</h2>
+                                </div>
+                                <p className="text-xl text-gray-900">{speedData.ip}</p>
+                            </div>
+                        </div>
+                        <div className="mt-12 px-4 font-poppins">
+                            <h2 className="text-2xl font-bold font-dm-sans text-center mb-6">Global Speed Rankings</h2>
+
+                            <div className="max-w-2xl mx-auto rounded-xl shadow-lg bg-white">
+                                <table className="w-full divide-y divide-gray-200">
+                                    <thead className="bg-gradient-to-r from-blue-50 to-blue-100">
+                                        <tr>
+                                            <th className="p-3 text-left text-xs font-semibold text-gray-900">
+                                                #
+                                            </th>
+                                            <th className="p-3 text-left text-xs font-semibold text-gray-900">
+                                                Country
+                                            </th>
+                                            <th className="p-3 text-right text-xs font-semibold text-gray-900">
+                                                Mbps
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200">
+                                        {mockLeaderboard.map((item, index) => (
+                                            <tr
+                                                key={index}
+                                                className={`${index === 0 ? 'bg-yellow-50' : 'hover:bg-gray-50'}`}
+                                            >
+                                                <td className="p-3 text-xs font-medium text-gray-900">
+                                                    {index + 1}
+                                                </td>
+                                                <td className="p-3">
+                                                    <div className="flex items-center space-x-2">
+                                                        <span className="text-xs font-medium text-gray-900 truncate">
+                                                            {item.country}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="p-3 text-right text-xs font-bold text-blue-600">
+                                                    {item.avgSpeed}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+            </div>
         </div>
     );
 };
 
-export default App;
+export default SpeedTest;
