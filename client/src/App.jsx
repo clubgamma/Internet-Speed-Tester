@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Wifi, Upload, Download, Clock, MapPin, Network } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const SpeedTest = () => {
     const [loading, setLoading] = useState(false);
     const [speedData, setSpeedData] = useState(null);
     const [error, setError] = useState('');
+    const [historicalData, setHistoricalData] = useState([]);
 
     const checkSpeed = async () => {
         setLoading(true);
@@ -21,6 +23,12 @@ const SpeedTest = () => {
                 setError(`Error: ${data.error}`);
             } else {
                 setSpeedData(data);
+                const newDataPoint = {
+                    timestamp: new Date().toLocaleTimeString(),
+                    download: data.download,
+                    upload: data.upload,
+                };
+                setHistoricalData(prev => [...prev, newDataPoint].slice(-7));
             }
         } catch (err) {
             setLoading(false);
@@ -115,6 +123,60 @@ const SpeedTest = () => {
                                 <p className="text-xl text-gray-900">{speedData.ip}</p>
                             </div>
                         </div>
+
+                        {historicalData.length > 0 && (
+                            <div className="bg-white font-dm-sans rounded-lg shadow-lg p-6 md:p-8 max-w-4xl mx-auto">
+                                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Speed History</h2>
+                                <div className="h-64  md:h-80">
+                                    <ResponsiveContainer width="100%"  height="100%">
+                                        <LineChart data={historicalData}>
+                                            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                            <XAxis
+                                                dataKey="timestamp"
+                                                label={{ value: 'Time', position: 'bottom', offset: -10 }}
+                                                tick={{ fontSize: 12 }}
+                                            />
+                                            <YAxis
+                                                label={{
+                                                    value: 'Speed (Mbps)',
+                                                    angle: -90,
+                                                    position: 'left',
+                                                    offset: -20
+                                                }}
+                                                tick={{ fontSize: 12 }}
+                                            />
+                                            <Tooltip
+                                                contentStyle={{ backgroundColor: '#fff', borderColor: '#2563eb' }}
+                                                labelStyle={{ color: '#2563eb' }}
+                                            />
+                                            <Legend
+                                                verticalAlign="top"
+                                                align="right"
+                                                wrapperStyle={{ paddingBottom: 10 }}
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="download"
+                                                stroke="#2563eb"
+                                                name="Download"
+                                                strokeWidth={2}
+                                                dot={{ stroke: '#2563eb', strokeWidth: 2 }}
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="upload"
+                                                stroke="#16a34a"
+                                                name="Upload"
+                                                strokeWidth={2}
+                                                dot={{ stroke: '#16a34a', strokeWidth: 2 }}
+                                            />
+                                        </LineChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
+                        )}
+
+
                         <div className="mt-12 px-4 font-poppins">
                             <h2 className="text-2xl font-bold font-dm-sans text-center mb-6">Global Speed Rankings</h2>
 
@@ -160,7 +222,6 @@ const SpeedTest = () => {
                         </div>
                     </>
                 )}
-
             </div>
         </div>
     );
