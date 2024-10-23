@@ -1,0 +1,8 @@
+geopandas==1.0.1
+descartes==1.1.0
+matplotlib==3.9.2
+adjustText==1.2.0
+jupyter==1.1.1
+tdqm
+flask
+pandas
