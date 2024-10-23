@@ -8,7 +8,6 @@ const Joi = require('joi');
 const rateLimit = require('express-rate-limit');
 
 app.use(cors()); // Enable all CORS requests
-app.use(express.static(path.join(__dirname, '../client/build'))); // Serve the React app
 
 // Rate limiting: limit each IP to 100 requests per 10 minutes
 const limiter = rateLimit({
@@ -16,9 +15,9 @@ const limiter = rateLimit({
     max: 100,
     message: "Too many requests from this IP, please try again later."
 });
-// Apply rate limiting to /speed route
+
 app.use("/speed", limiter);
-// Validation schema for speed test data
+
 const schema = Joi.object({
     downloadSpeed: Joi.number().min(0).required(),
     uploadSpeed: Joi.number().min(0).required(),
@@ -27,6 +26,11 @@ const schema = Joi.object({
     userLocation: Joi.string().required(),
     userIp: Joi.string().ip().required()
 });
+
+app.get('/api/hello',(req,res)=>{
+    res.send("Hello!!");
+});
+
 
 // API route for speed test
 app.get('/api/speed', (req, res) => {
@@ -63,11 +67,8 @@ app.get('/api/speed', (req, res) => {
     });
 });
 
-// Serve the React app for any unknown route
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
+
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`http://localhost:${PORT}`);
 });
