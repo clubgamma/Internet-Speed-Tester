@@ -27,7 +27,7 @@ const schema = Joi.object({
     userIp: Joi.string().ip().required()
 });
 
-app.get('/api/hello',(req,res)=>{
+app.get('/',(req,res)=>{
     res.send("Hello!!");
 });
 
