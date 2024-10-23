@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
-import { Wifi, Upload, Download, Clock, MapPin, Network, Moon, Sun } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import React, { useState } from "react";
+import {
+  Wifi,
+  Upload,
+  Download,
+  Clock,
+  MapPin,
+  Network,
+  Moon,
+  Sun,
+  RefreshCw,
+} from "lucide-react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import {motion} from "framer-motion";
 
 export default function SpeedTest() {
   const [loading, setLoading] = useState(false);
   const [speedData, setSpeedData] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [historicalData, setHistoricalData] = useState([]);
   const [darkMode, setDarkMode] = useState(false);
 
   const checkSpeed = async () => {
     setLoading(true);
     setSpeedData(null);
-    setError('');
+    setError("");
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
       const response = await fetch(`${apiUrl}/api/speed`);
       const data = await response.json();
 
@@ -29,25 +49,25 @@ export default function SpeedTest() {
           download: data.download,
           upload: data.upload,
         };
-        setHistoricalData(prev => [...prev, newDataPoint].slice(-7));
+        setHistoricalData((prev) => [...prev, newDataPoint].slice(-7));
       }
     } catch (err) {
       setLoading(false);
-      setError('Error performing speed test.');
+      setError("Error performing speed test.");
     }
   };
 
   const mockLeaderboard = [
-    { country: 'United Arab Emirates', avgSpeed: 413.14 },
-    { country: 'Qatar', avgSpeed: 350.50 },
-    { country: 'Kuwait', avgSpeed: 257.15 },
-    { country: 'South Korea', avgSpeed: 143.11 },
-    { country: 'Netherlands', avgSpeed: 142.22 },
-    { country: 'Denmark', avgSpeed: 133.57 },
-    { country: 'Norway', avgSpeed: 129.16 },
-    { country: 'Bulgaria', avgSpeed: 129.07 },
-    { country: 'Saudi Arabia', avgSpeed: 120.74 },
-    { country: 'Luxembourg', avgSpeed: 119.81 },
+    { country: "United Arab Emirates", avgSpeed: 413.14 },
+    { country: "Qatar", avgSpeed: 350.5 },
+    { country: "Kuwait", avgSpeed: 257.15 },
+    { country: "South Korea", avgSpeed: 143.11 },
+    { country: "Netherlands", avgSpeed: 142.22 },
+    { country: "Denmark", avgSpeed: 133.57 },
+    { country: "Norway", avgSpeed: 129.16 },
+    { country: "Bulgaria", avgSpeed: 129.07 },
+    { country: "Saudi Arabia", avgSpeed: 120.74 },
+    { country: "Luxembourg", avgSpeed: 119.81 },
   ];
 
   const toggleTheme = () => {
@@ -55,15 +75,19 @@ export default function SpeedTest() {
   };
 
   return (
-    <div className={`min-h-screen p-4 sm:p-6 transition-colors duration-300 ${
-      darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'
-    }`}>
+    <div
+      className={`min-h-screen p-4 sm:p-6 transition-colors duration-300 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+      }`}
+    >
       <div className="mx-auto space-y-8 max-w-7xl">
         {/* Header with Theme Toggle */}
         <div className="flex items-center justify-between w-full">
           <div className="flex-1 text-center">
-            <h1 className="text-3xl font-bold sm:text-4xl">Internet Speed Test</h1>
-            <p className={darkMode ? 'text-gray-300' : 'text-gray-600'}>
+            <h1 className="text-3xl font-bold sm:text-4xl">
+              Internet Speed Test
+            </h1>
+            <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
               Check your connection speed in seconds
             </p>
           </div>
@@ -71,9 +95,11 @@ export default function SpeedTest() {
           <button
             onClick={toggleTheme}
             className={`p-2 transition-all duration-300 transform rounded-full hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-              darkMode ? 'bg-gray-700' : 'bg-white'
+              darkMode ? "bg-gray-700" : "bg-white"
             }`}
-            aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            aria-label={
+              darkMode ? "Switch to light mode" : "Switch to dark mode"
+            }
           >
             {darkMode ? (
               <Sun className="w-6 h-6 text-yellow-500" />
@@ -84,23 +110,28 @@ export default function SpeedTest() {
         </div>
 
         {/* Speed Test Button */}
-        <div className="flex justify-center">
-          <button
+
+        <motion.div
+          className="flex justify-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={checkSpeed}
             disabled={loading}
-            className="flex items-center gap-3 px-6 py-3 text-base font-semibold text-white transition-all duration-300 transform bg-blue-600 rounded-lg sm:px-8 sm:py-4 sm:text-lg hover:bg-blue-700 hover:scale-105 disabled:opacity-50"
+            className="flex items-center gap-3 px-6 py-3 text-base font-semibold text-white transition-all duration-300 bg-blue-600 rounded-lg sm:px-8 sm:py-4 sm:text-lg hover:bg-blue-700 disabled:opacity-50"
           >
-            <Wifi className="w-5 h-5 sm:w-6 sm:h-6" />
-            {loading ? 'Testing...' : 'Start Speed Test'}
-          </button>
-        </div>
-
-        {/* Loading Spinner */}
-        {loading && (
-          <div className="flex justify-center">
-            <div className="w-12 h-12 border-4 border-blue-600 rounded-full sm:w-16 sm:h-16 border-t-transparent animate-spin"></div>
-          </div>
-        )}
+            {loading ? (
+              <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 animate-spin" />
+            ) : (
+              <Wifi className="w-5 h-5 sm:w-6 sm:h-6" />
+            )}
+            {loading ? "Testing..." : "Start Speed Test"}
+          </motion.button>
+        </motion.div>
 
         {/* Error Message */}
         {error && (
@@ -116,83 +147,100 @@ export default function SpeedTest() {
               {[
                 {
                   icon: Download,
-                  title: 'Download Speed',
+                  title: "Download Speed",
                   value: `${speedData.download} Mbps`,
-                  color: 'text-blue-600',
+                  color: "text-blue-600",
                 },
                 {
                   icon: Upload,
-                  title: 'Upload Speed',
+                  title: "Upload Speed",
                   value: `${speedData.upload} Mbps`,
-                  color: 'text-green-600',
+                  color: "text-green-600",
                 },
                 {
                   icon: Clock,
-                  title: 'Ping',
+                  title: "Ping",
                   value: `${speedData.ping} ms`,
-                  color: 'text-yellow-600',
+                  color: "text-yellow-600",
                 },
                 {
                   icon: MapPin,
-                  title: 'Location',
+                  title: "Location",
                   value: speedData.location,
-                  color: 'text-purple-600',
+                  color: "text-purple-600",
                 },
                 {
                   icon: Network,
-                  title: 'IP Address',
+                  title: "IP Address",
                   value: speedData.ip,
-                  color: 'text-indigo-600',
-                  text: 'text-sm',
+                  color: "text-indigo-600",
+                  text: "text-sm",
                 },
               ].map((item, index) => (
                 <div
                   key={index}
                   className={`p-4 transition-all duration-300 transform ${
-                    darkMode ? 'bg-gray-800' : 'bg-white'
+                    darkMode ? "bg-gray-800" : "bg-white"
                   } shadow-lg sm:p-6 rounded-xl hover:shadow-xl hover:scale-105`}
                 >
                   <div className="flex items-center gap-3 mb-2 sm:gap-4 sm:mb-4">
-                    <item.icon className={`w-6 h-6 sm:w-8 sm:h-8 ${item.color}`} />
-                    <h2 className="text-lg font-semibold sm:text-xl">{item.title}</h2>
+                    <item.icon
+                      className={`w-6 h-6 sm:w-8 sm:h-8 ${item.color}`}
+                    />
+                    <h2 className="text-lg font-semibold sm:text-xl">
+                      {item.title}
+                    </h2>
                   </div>
-                  <p className= {`text-2xl font-bold ${item.text ? item.text : ''}`}>{item.value}</p>
+                  <p
+                    className={`text-2xl font-bold ${
+                      item.text ? item.text : ""
+                    }`}
+                  >
+                    {item.value}
+                  </p>
                 </div>
               ))}
             </div>
 
             {/* Historical Data Chart */}
             {historicalData.length > 0 && (
-              <div className={`p-6 shadow-lg rounded-xl md:p-8 ${
-                darkMode ? 'bg-gray-800' : 'bg-white'
-              }`}>
-                <h2 className="mb-6 text-2xl font-bold text-center">Speed History</h2>
+              <div
+                className={`p-6 shadow-lg rounded-xl md:p-8 ${
+                  darkMode ? "bg-gray-800" : "bg-white"
+                }`}
+              >
+                <h2 className="mb-6 text-2xl font-bold text-center">
+                  Speed History
+                </h2>
                 <div className="h-64 md:h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={historicalData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={darkMode ? '#374151' : '#e5e7eb'} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={darkMode ? "#374151" : "#e5e7eb"}
+                      />
                       <XAxis
                         dataKey="timestamp"
-                        stroke={darkMode ? '#9CA3AF' : '#4B5563'}
+                        stroke={darkMode ? "#9CA3AF" : "#4B5563"}
                         tick={{ fontSize: 12 }}
                       />
                       <YAxis
-                        stroke={darkMode ? '#9CA3AF' : '#4B5563'}
+                        stroke={darkMode ? "#9CA3AF" : "#4B5563"}
                         tick={{ fontSize: 12 }}
                         label={{
-                          value: 'Speed (Mbps)',
+                          value: "Speed (Mbps)",
                           angle: -90,
-                          position: 'left',
+                          position: "left",
                           offset: -5,
-                          style: { fill: darkMode ? '#9CA3AF' : '#4B5563' }
+                          style: { fill: darkMode ? "#9CA3AF" : "#4B5563" },
                         }}
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: darkMode ? '#1F2937' : '#fff',
-                          borderColor: darkMode ? '#374151' : '#2563eb'
+                          backgroundColor: darkMode ? "#1F2937" : "#fff",
+                          borderColor: darkMode ? "#374151" : "#2563eb",
                         }}
-                        labelStyle={{ color: darkMode ? '#E5E7EB' : '#2563eb' }}
+                        labelStyle={{ color: darkMode ? "#E5E7EB" : "#2563eb" }}
                       />
                       <Legend
                         verticalAlign="top"
@@ -205,7 +253,7 @@ export default function SpeedTest() {
                         stroke="#2563eb"
                         name="Download"
                         strokeWidth={2}
-                        dot={{ stroke: '#2563eb', strokeWidth: 2 }}
+                        dot={{ stroke: "#2563eb", strokeWidth: 2 }}
                       />
                       <Line
                         type="monotone"
@@ -213,7 +261,7 @@ export default function SpeedTest() {
                         stroke="#16a34a"
                         name="Upload"
                         strokeWidth={2}
-                        dot={{ stroke: '#16a34a', strokeWidth: 2 }}
+                        dot={{ stroke: "#16a34a", strokeWidth: 2 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -227,48 +275,72 @@ export default function SpeedTest() {
                 Global Speed Rankings
               </h2>
 
-              <div className={`max-w-2xl mx-auto overflow-hidden shadow-lg rounded-xl ${
-                darkMode ? 'bg-gray-800' : 'bg-white'
-              }`}>
+              <div
+                className={`max-w-2xl mx-auto overflow-hidden shadow-lg rounded-xl ${
+                  darkMode ? "bg-gray-800" : "bg-white"
+                }`}
+              >
                 <div className="overflow-x-auto">
                   <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
-                    <thead className={darkMode
-                      ? 'bg-gradient-to-r from-gray-800 to-gray-700 text-gray-100'
-                      : 'bg-gradient-to-r from-blue-50 to-blue-100 text-gray-700'
-                    }>
+                    <thead
+                      className={
+                        darkMode
+                          ? "bg-gradient-to-r from-gray-800 to-gray-700 text-gray-100"
+                          : "bg-gradient-to-r from-blue-50 to-blue-100 text-gray-700"
+                      }
+                    >
                       <tr>
-                        <th className="p-3 text-xs font-semibold text-left">Rank</th>
-                        <th className="p-3 text-xs font-semibold text-left">Country</th>
-                        <th className="p-3 text-xs font-semibold text-right">Mbps</th>
+                        <th className="p-3 text-xs font-semibold text-left">
+                          Rank
+                        </th>
+                        <th className="p-3 text-xs font-semibold text-left">
+                          Country
+                        </th>
+                        <th className="p-3 text-xs font-semibold text-right">
+                          Mbps
+                        </th>
                       </tr>
                     </thead>
-                    <tbody className={`divide-y ${darkMode ? 'divide-gray-700' : 'divide-gray-200'}`}>
+                    <tbody
+                      className={`divide-y ${
+                        darkMode ? "divide-gray-700" : "divide-gray-200"
+                      }`}
+                    >
                       {mockLeaderboard.map((item, index) => (
                         <tr
                           key={index}
                           className={`
-                            ${index === 0
-                              ? darkMode
-                                ? 'bg-cyan-900 text-white'
-                                : 'bg-yellow-50 text-gray-900'
-                              : darkMode
-                                ? 'text-gray-100 hover:bg-gray-700'
-                                : 'text-gray-700 hover:bg-gray-50'
+                            ${
+                              index === 0
+                                ? darkMode
+                                  ? "bg-cyan-900 text-white"
+                                  : "bg-yellow-50 text-gray-900"
+                                : darkMode
+                                ? "text-gray-100 hover:bg-gray-700"
+                                : "text-gray-700 hover:bg-gray-50"
                             }
                             transition-colors duration-150
                           `}
                         >
-                          <td className="p-3 text-xs font-medium">{index + 1}</td>
+                          <td className="p-3 text-xs font-medium">
+                            {index + 1}
+                          </td>
                           <td className="p-3">
                             <span className="text-xs font-medium truncate">
                               {item.country}
                             </span>
                           </td>
-                          <td className={`p-3 text-xs font-bold text-right ${
-                            darkMode
-                              ? index === 0 ? 'text-cyan-200' : 'text-blue-400'
-                              : index === 0 ? 'text-blue-700' : 'text-blue-600'
-                          }`}>
+                          <td
+                            className={`p-3 text-xs font-bold text-right ${
+                              darkMode
+                                ? index === 0
+                                  ? "text-cyan-200"
+                                  : "text-blue-400"
+                                : index === 0
+                                ? "text-blue-700"
+                                : "text-blue-600"
+                            }`}
+                          >
                             {item.avgSpeed}
                           </td>
                         </tr>
