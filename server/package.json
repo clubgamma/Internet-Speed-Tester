@@ -12,10 +12,8 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "env": "^0.0.2",
     "express": "^4.21.1",
-    "net": "^1.0.2",
-    "network-speed": "^2.1.1",
-    "nodemon": "^3.1.7",
-    "ws": "^8.18.0"
+    "nodemon": "^3.1.7"
   }
 }
