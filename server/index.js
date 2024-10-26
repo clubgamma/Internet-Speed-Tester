@@ -1,98 +1,24 @@
-const WebSocket = require('ws');
-const crypto = require('crypto');
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const cors=require('cors');
 
-const wss = new WebSocket.Server({ port: 8080 });
+const app = express();
 
-function generateTestData(sizeInBytes) {
-    return crypto.randomBytes(sizeInBytes);
-}
+app.use(cors());
+const PORT = 3000;
 
-function calculateSpeed(bytes, milliseconds) {
-    const bits = bytes * 8;
-    const megabits = bits / 1000000;
-    return (megabits / (milliseconds / 1000)).toFixed(2); // Convert milliseconds to seconds
-}
-
-async function measureDownloadSpeed(ws) {
-    const TEST_SIZE = 30 * 1024 * 1024; // 30 MB
-    const testData = generateTestData(TEST_SIZE);
-    const start = Date.now();
-
-    return new Promise((resolve, reject) => {
-        ws.send(testData, { binary: true }, (error) => {
-            if (error) {
-                console.error("Error sending data for download speed test:", error);
-                reject(error);
-            } else {
-                ws.once('message', (message) => {
-                    const duration = Date.now() - start;
-                    const speedMbps = calculateSpeed(TEST_SIZE, duration);
-                    resolve(speedMbps);
-                });
-            }
-        });
-    });
-}
-
-async function measureUploadSpeed(ws) {
-    return new Promise((resolve, reject) => {
-        const TEST_SIZE = 30 * 1024 * 1024; // 30 MB
-        ws.send(JSON.stringify({ type: 'upload-test-start', size: TEST_SIZE }));
-
-        let receivedSize = 0;
-        const start = Date.now();
-
-        const uploadHandler = (message) => {
-            if (message instanceof Buffer) {
-                receivedSize += message.length;
-
-                if (receivedSize >= TEST_SIZE) {
-                    const duration = Date.now() - start;
-                    const speedMbps = calculateSpeed(receivedSize, duration);
-                    ws.removeListener('message', uploadHandler);
-                    resolve(speedMbps);
-                }
-            } else {
-                console.warn("Unexpected message received during upload test:", message);
-            }
-        };
-
-        ws.on('message', uploadHandler);
-    });
-}
-
-wss.on('connection', (ws) => {
-    console.log('Client connected');
-
-    ws.on('message', async (message) => {
-        try {
-            const parsedMessage = JSON.parse(message);
-            if (parsedMessage.action === 'startTest') {
-                console.log('Starting speed test...');
-                
-                const uploadSpeed = await measureUploadSpeed(ws);
-                console.log(`Upload Speed: ${uploadSpeed} Mbps`);
-                ws.send(JSON.stringify({ type: 'upload', value: uploadSpeed }));
-
-                const downloadSpeed = await measureDownloadSpeed(ws);
-                console.log(`Download Speed: ${downloadSpeed} Mbps`);
-                ws.send(JSON.stringify({ type: 'download', value: downloadSpeed }));
-
-                // Optionally, terminate the connection after testing
-                ws.terminate(); // Close the connection after the tests
-            }
-        } catch (error) {
-            console.error('Error processing message:', error);
-        }
-    });
-
-    ws.on('error', (error) => {
-        console.error('WebSocket error:', error);
-    });
-
-    ws.on('close', () => {
-        console.log('Client disconnected');
-    });
+app.get('/download', (req, res) => {
+    const filePath = path.join(__dirname, 'testfile.dat');
+    res.download(filePath);
 });
 
-console.log('WebSocket server is running on ws://localhost:8080');
+app.post('/upload', express.raw({ type: 'application/octet-stream', limit: '50mb' }), (req, res) => {
+    console.log(`Uploaded ${req.body.length} bytes`);
+    res.sendStatus(200);
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
