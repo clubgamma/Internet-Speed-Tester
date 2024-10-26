@@ -1,12 +1,12 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
-const cors=require('cors');
+const cors = require('cors');
 
 const app = express();
-
+require('dotenv').config();
 app.use(cors());
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/download', (req, res) => {
     const filePath = path.join(__dirname, 'testfile.dat');
