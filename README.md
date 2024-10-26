@@ -1,106 +1,111 @@
-Internet Speed Tester
+# Internet Speed Tester 🚀
 
-This project is an Internet Speed Testing tool built with React on the frontend and Node.js on the backend. It uses the fast-cli tool to check internet speeds (download, upload, ping) and provides actionable insights.
+A modern web application for testing internet speeds built with React and Node.js. Get real-time measurements of your download speed, upload speed, and ping with actionable insights.
 
-Features
+## Features ✨
 
-	•	Display download and upload speed.
-	•	Display ping and location.
-	•	API to retrieve speed test results via fast-cli.
+- Real-time download and upload speed testing
+- Ping and location information
+- Clean, intuitive user interface
+- RESTful API for speed test results
 
-Installation
+## Prerequisites 📋
 
-1. Forking & Cloning the Project
+Before you begin, ensure you have installed:
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) (usually comes with Node.js)
+- [Git](https://git-scm.com/)
 
-Fork the Repository
+## Installation 🛠️
 
-	1.	Go to the project’s repository on GitHub.
-	2.	Click the Fork button in the top-right corner of the repository page.
+### 1. Fork & Clone the Repository
 
-Clone the Repository
+First, fork this repository, then clone your forked version:
 
-After forking the project, follow these steps to clone it to your local machine:
+```bash
+git clone https://github.com/YOUR-USERNAME/internet-speed-tester.git
+cd internet-speed-tester
+```
 
-	1.	Copy the repository URL from your forked repository.
-	2.	Run the following command in your terminal:
+### 2. Install Dependencies
 
-    git clone https://github.com/YOUR-USERNAME/internet-speed-tester.git
+You'll need to install dependencies for both the frontend and backend:
 
-    2. Navigate to the Project Folder
+#### Frontend (React)
+```bash
+cd client
+npm install
+```
 
-After cloning, navigate to the project folder:
+#### Backend (Node.js)
+```bash
+cd ../server
+npm install
+```
 
-    cd internet-speed-tester
+### 3. Environment Setup
 
-3. Install Dependencies
+Create a `.env` file in the server directory:
 
-The project is divided into two main folders: client for the frontend and server for the backend. You will need to install dependencies for both parts.
+```env
+BACK_END_URL=http://localhost:3000
+```
 
-Frontend (React)
+## Project Structure 📁
 
-	1.	Navigate to the client folder:
-
-    cd client
-
-	2.	Install dependencies:
-
-    npm install
-
-Backend (Node.js)
-
-	1.	Navigate to the server folder:
-
-    cd server
-
-	2.	Install dependencies:
-
-    npm install
-
-4. Setting Up Environment Variables
-
-Create a .env file in the server folder and add the following:
-
-    REACT_APP_API_URL=http://localhost:3000
-
-File Structure
-
-The project is divided into two main folders:
-
+```
 internet-speed-tester/
 ├── client/            # React Frontend
-│   ├── public/        # Public folder for HTML and static assets
-│   ├── src/           # Main React code
-│       ├── App.js     # React app code
-│       └── ...        # Other components and assets
-├── server/            # Node.js Backend
-│   ├── server.js      # Main server code
-│   └── ...            # Other backend files
-└── README.md          # Project documentation
+│   ├── public/        # Public assets
+│   ├── src/          # Source files
+│       ├── App.jsx   # Main React component
+│       └── ...       # Other components
+├── server/           # Node.js Backend
+│   ├── index.js     # Server entry point
+│   └── ...          # Other server files
+└── README.md        # Project documentation
+```
 
-Usage
+## Running the Application 🚀
 
-Running the Frontend
+### Start the Backend Server
 
-	1.	Navigate to the client folder:
+```bash
+cd server
+npm run dev
+```
 
-    cd client
+### Start the Frontend Development Server
 
-	2.	Start the development server:
+```bash
+cd client
+npm run dev
+```
 
-    npm start
+> **Important Note**: If you experience issues accessing the website, try starting the backend server before launching the frontend.
 
-Running the Backend
+Returns internet speed test results including:
+- Download speed
+- Upload speed
+- Latency
 
-	1.	Navigate to the server folder:
+## Contributing 🤝
 
-    cd server
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-	2.	Start the backend server:
+## License 📝
 
-    node server.js
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-API Endpoint
+## Acknowledgments 🙏
 
-	•	GET /api/speed: This endpoint returns the internet speed data (download, upload, ping).
+- [React](https://reactjs.org/) for the frontend framework
+- [Node.js](https://nodejs.org/) for the backend runtime
 
-IMP: If the website doesnt open on the local host then try running the server first and then the frontend.
+## Support 💬
+
+If you encounter any issues or have questions, please file an issue in the GitHub repository.
