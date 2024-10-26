@@ -1,4 +1,3 @@
-// src/components/SpeedTest/SpeedDisplay.jsx
 
 import React from 'react';
 

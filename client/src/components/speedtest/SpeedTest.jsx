@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { calculateDownloadSpeed, calculateUploadSpeed, calculateLatency } from '../../utils/speedTestUtils.js';
-import SpeedDisplay from './speeddisplay';
-import TestButton from './TestButton';
+import SpeedDisplay from './speeddisplay.jsx';
+import TestButton from './TestButton.jsx';
 
 const SpeedTest = () => {
   const [downloadSpeed, setDownloadSpeed] = useState(null);
