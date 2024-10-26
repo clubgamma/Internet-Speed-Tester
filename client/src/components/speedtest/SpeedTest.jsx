@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { calculateDownloadSpeed, calculateUploadSpeed, calculateLatency } from '../../utils/speedTestUtils.js';
 import SpeedDisplay from './SpeedDisplay.jsx';
 import TestButton from './TestButton.jsx';
+import SpeedChart from './SpeedChart.jsx';
 
 const SpeedTest = () => {
   const [downloadSpeed, setDownloadSpeed] = useState(null);
@@ -47,6 +48,14 @@ const SpeedTest = () => {
         <SpeedDisplay label="Upload Speed" value={uploadSpeed} unit="Mbps" />
         <SpeedDisplay label="Latency" value={latency} unit="ms" />
       </div>
+
+      {downloadSpeed && (
+        <SpeedChart downloadSpeed={downloadSpeed} uploadSpeed={uploadSpeed} />
+      )}
+      {uploadSpeed && !downloadSpeed && (
+        <SpeedChart uploadSpeed={uploadSpeed} />
+      )}
+
     </div>
   );
 };
