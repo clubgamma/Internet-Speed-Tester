@@ -1,14 +1,12 @@
-import React from 'react';
-import SpeedTest from './components/speedtest/speedtest';
+import { ThemeProvider } from "./components/theme-provider"
+import SpeedTest from "./components/SpeedTest"
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 p-4">
-      <div className="max-w-4xl mx-auto">
-        <SpeedTest />
-      </div>
-    </div>
-  );
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <SpeedTest />
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
