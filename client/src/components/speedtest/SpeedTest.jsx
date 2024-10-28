@@ -102,6 +102,16 @@ const SpeedTest = () => {
           label="Test Latency"
           disabled={isTesting}
         />
+        <TestButton
+          onClick={()=>{
+              setDownloadSpeed(0);
+              setUploadSpeed(0);
+              setLatency(0);
+              setIsTesting(false);
+          }}
+          label="RESET"
+          disabled={isTesting}
+        />
       </div>
     </div>
   );
