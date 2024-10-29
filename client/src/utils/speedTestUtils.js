@@ -24,9 +24,7 @@ export const calculateUploadSpeed = async () => {
       }else{
         data = new Uint8Array(4 * 1024 * 1024);
     }
-    console.log(data.length);
     const startTime = Date.now();
-
     const response = await fetch(`${BACK_END_URL}/upload`, {
       method: 'POST',
       body: data,
@@ -51,6 +49,7 @@ export const calculateUploadSpeed = async () => {
 export const calculateLatency = async () => {
   try {
     const startTime = Date.now();
+
     const response = await fetch(`${BACK_END_URL}/download`);
     if (!response.ok) throw new Error('Network response was not ok');
     const endTime = Date.now();
