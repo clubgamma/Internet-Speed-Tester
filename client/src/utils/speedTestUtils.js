@@ -17,7 +17,7 @@ export const calculateDownloadSpeed = async () => {
 
 export const calculateUploadSpeed = async () => {
   try {
-    const data = new Uint8Array(30 * 1024 * 1024);
+    const data = new Uint8Array(1* 1024 * 1024);
     const startTime = Date.now();
 
     const response = await fetch('http://localhost:3000/upload', {
