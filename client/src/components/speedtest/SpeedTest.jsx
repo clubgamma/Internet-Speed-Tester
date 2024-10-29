@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { calculateDownloadSpeed, calculateUploadSpeed, calculateLatency } from '../../utils/speedTestUtils.js';
+import { calculateDownloadSpeed, calculateUploadSpeed,calculateLatency } from '../../utils/speedTestUtils.js';
 import TestButton from './TestButton.jsx';
 import ReactSpeedometer from "react-d3-speedometer/slim";
 
 const SpeedTest = () => {
-  const [downloadSpeed, setDownloadSpeed] = useState(0);
-  const [uploadSpeed, setUploadSpeed] = useState(0);
-  const [latency, setLatency] = useState(0);
+  const [downloadSpeed, setDownloadSpeed] = useState(0.0);
+  const [uploadSpeed, setUploadSpeed] = useState(0.0);
+  const [latency, setLatency] = useState(0.0);
   const [isTesting, setIsTesting] = useState(false);
 
   const handleDownloadTest = async () => {
@@ -38,8 +38,8 @@ const SpeedTest = () => {
         
         <ReactSpeedometer
           minValue={0}
-          maxValue={4000}
-          value={downloadSpeed}
+          maxValue={4096}
+          value={Number(downloadSpeed)}
           needleColor="#a7ff83"
           startColor="#c46e74"
           segments={4}
@@ -54,8 +54,8 @@ const SpeedTest = () => {
           />
         <ReactSpeedometer
           minValue={0}
-          maxValue={4000}
-          value={uploadSpeed}
+          maxValue={4096}
+          value={Number(uploadSpeed)}
           needleColor="#a7ff83"
           startColor="#c46e74"
           segments={4}
@@ -70,8 +70,8 @@ const SpeedTest = () => {
           />
         <ReactSpeedometer
           minValue={0}
-          maxValue={120}
-          value={latency}
+          maxValue={1024}
+          value={Number(latency)}
           needleColor="#a7ff83"
           startColor="#c46e74"
           segments={4}
