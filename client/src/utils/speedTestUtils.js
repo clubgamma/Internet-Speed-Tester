@@ -1,4 +1,6 @@
-const BACK_END_URL=process.env.BACK_END_URL;
+// Get the backend URL with a fallback for development
+const BACK_END_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+
 export const calculateDownloadSpeed = async () => {
   try {
     const startTime = Date.now();
@@ -18,12 +20,10 @@ export const calculateDownloadSpeed = async () => {
 
 export const calculateUploadSpeed = async () => {
   try {
-    let data;
-    if(BACK_END_URL.includes('localhost')){
-       data = new Uint8Array(50 * 1024 * 1024);
-      }else{
-        data = new Uint8Array(4 * 1024 * 1024);
-    }
+    // Use a smaller payload for production to comply with Vercel limits
+    const isProduction = import.meta.env.PROD;
+    const data = new Uint8Array(isProduction ? 2 * 1024 * 1024 : 50 * 1024 * 1024);
+
     const startTime = Date.now();
     const response = await fetch(`${BACK_END_URL}/upload`, {
       method: 'POST',
@@ -49,7 +49,6 @@ export const calculateUploadSpeed = async () => {
 export const calculateLatency = async () => {
   try {
     const startTime = Date.now();
-
     const response = await fetch(`${BACK_END_URL}/download`);
     if (!response.ok) throw new Error('Network response was not ok');
     const endTime = Date.now();
