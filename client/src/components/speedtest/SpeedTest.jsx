@@ -53,17 +53,7 @@ const SpeedTest = () => {
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Internet Speed Test</h1>
         <p className="text-gray-600">Check your connection speed in seconds</p>
       </div>
-
-      {/* Centered Start Test Button */}
-      <div className="flex justify-center mb-8">
-        <TestButton
-          onClick={handleStartTest}
-          label="Start Speed Test"
-          disabled={isTesting}
-          primary
-        />
-      </div>
-
+      
       {/* Speed Display Cards with Buttons Below */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="flex flex-col gap-4">
@@ -109,20 +99,6 @@ const SpeedTest = () => {
         </div>
       </div>
 
-      {/* Location and IP Display */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <SpeedDisplay
-          label="Location"
-          value={location}
-          type="location"
-        />
-        <SpeedDisplay
-          label="IP Address"
-          value={ipAddress}
-          type="ip"
-        />
-      </div>
-
       {/* Centered Reset Button */}
       <div className="flex justify-center mb-8">
         <TestButton
@@ -158,6 +134,41 @@ const SpeedTest = () => {
               <td className="py-3">3</td>
               <td>Kuwait</td>
               <td className="text-right text-blue-500">252.15</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">4</td>
+              <td>Singapore</td>
+              <td className="text-right text-blue-500">240.00</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">5</td>
+              <td>Hong Kong</td>
+              <td className="text-right text-blue-500">230.50</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">6</td>
+              <td>Switzerland</td>
+              <td className="text-right text-blue-500">220.75</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">7</td>
+              <td>United States</td>
+              <td className="text-right text-blue-500">210.30</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">8</td>
+              <td>Netherlands</td>
+              <td className="text-right text-blue-500">200.00</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">9</td>
+              <td>Germany</td>
+              <td className="text-right text-blue-500">190.25</td>
+            </tr>
+            <tr className="border-t border-gray-100">
+              <td className="py-3">10</td>
+              <td>Australia</td>
+              <td className="text-right text-blue-500">180.00</td>
             </tr>
           </tbody>
         </table>

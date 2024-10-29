@@ -17,19 +17,6 @@ const SpeedDisplay = ({ label, value, unit, type }) => {
     }
   };
 
-  // For location and IP display
-  if (type === 'location' || type === 'ip') {
-    return (
-      <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 flex items-center space-x-3">
-        {getIcon()}
-        <div>
-          <p className="text-sm text-gray-500">{label}</p>
-          <p className="font-medium text-gray-900">{value}</p>
-        </div>
-      </div>
-    );
-  }
-
   // For speed metrics
   return (
     <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
