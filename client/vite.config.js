@@ -8,5 +8,19 @@ export default defineConfig(({ mode }) => {
       'process.env.BACK_END_URL': JSON.stringify(env.BACK_END_URL)
     },
     plugins: [react()],
+    build: {
+      outDir: 'dist',
+      sourcemap: true
+    },
+    server: {
+      proxy: {
+        '/api': {
+          target: process.env.BACK_END_URL || 'http://localhost:3000',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
+    },
+    base: '/' // Ensures assets are loaded from the correct path
   }
 })
